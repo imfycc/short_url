@@ -1,0 +1,29 @@
+<div class="jumbotron">
+  <%= form_tag("", method: :post) do %>
+    <div class="item-title">输入网址</div>
+    <div class="form-group">
+      <input type="url" name="url" value="<%= @url %>" class="form-control" placeholder="https://hufangyun.com" required />
+      <div class="item-title or">或者</div>
+      <div class="custom-box">
+        <span class="small-title">自定义短码</span>
+        <input type="text" maxlength="6" pattern="[A-Za-z0-9]{0,6}" name="custom_keyword" value="<%= @custom_keyword %>" class="form-control custom-keyword" />
+        <span class="custom-keyword-tip">3到6位的数字、字母（区分大小写）组合</span>
+      </div>
+    </div>
+    <div class="show-result">
+      <%= if @short_url !="" do %>
+      <div class="long-url">
+        <span class="label label-success url-title">原链接</span><span><%= @url %></span>
+      </div>
+      <div class="short-url">
+        <span class="label label-success url-title" >短链接</span><span id="short-url"><%= @short_url %></span>
+        <a class="btn clipboard" data-clipboard-target="#short-url">
+          <img src="<%= static_path(@conn, "/images/clippy.svg") %>" alt="Copy to clipboard">
+        </a>
+      </div>
+      <% end %>
+    </div>
+    <button type="submit" class="btn btn-success get-short-url">生成短链接</button>
+  <% end %>
+</div>
+
