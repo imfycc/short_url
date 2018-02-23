@@ -27,3 +27,15 @@ iex -S mix
 
 可以参考这篇文章 [使用 edeliver 部署 Elixir 应用程序](https://hufangyun.com/2017/elixir-edeliver/)
 
+## TODO
+
+1、静态文件上传到又拍云
+
+2、接口化，前端调用接口实现
+
+3、自动续期
+
+4、压测
+
+5、访问速度优化
+
