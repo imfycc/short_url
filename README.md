@@ -2,6 +2,10 @@
 
 > 短链接生成应用
 
+## 系统设计
+
+[短网址(short URL)系统的原理及其实现](https://hufangyun.com/2017/short-url/)
+
 ## 准备工作
 
 ###  安装elixir
