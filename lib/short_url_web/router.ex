@@ -19,6 +19,12 @@ defmodule ShortUrlWeb.Router do
     resources "/", LinkController, only: [:index, :show, :create]
   end
 
+  scope "/api", ShortUrlWeb.API do
+    pipe_through :api
+
+    post "/shorten", LinkController, :shorten
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ShortUrlWeb do
   #   pipe_through :api
