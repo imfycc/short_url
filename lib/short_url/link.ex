@@ -9,9 +9,9 @@ defmodule ShortUrl.Link do
   ]
 
   schema "links" do
-    field :url, :string
-    field :keyword, :string
-    field :type, :string
+    field(:url, :string)
+    field(:keyword, :string)
+    field(:type, :string)
 
     timestamps()
   end
@@ -27,12 +27,12 @@ defmodule ShortUrl.Link do
   end
 
   def validate_url(changeset, field, options \\ []) do
-    validate_change changeset, field, fn _, url ->
-      case url |> String.to_charlist |> :http_uri.parse do
+    validate_change(changeset, field, fn _, url ->
+      case url |> String.to_charlist() |> :http_uri.parse() do
         {:ok, _} -> []
-        {:error, msg} -> [{field, options[:message] || "invalid url: #{inspect msg}"}]
+        {:error, msg} -> [{field, options[:message] || "invalid url: #{inspect(msg)}"}]
       end
-    end
+    end)
   end
 
   def shorten(url, custom_keyword, hostname) do
@@ -41,13 +41,16 @@ defmodule ShortUrl.Link do
 
   def lengthen(url) do
     keyword = get_keyword(url)
-    link = Link
-    |> where(keyword: ^keyword)
-    |> Repo.one
+
+    link =
+      Link
+      |> where(keyword: ^keyword)
+      |> Repo.one()
 
     case link do
       nil ->
         {:error, :keyword_not_exist}
+
       %Link{} ->
         {:ok, link.url}
     end
@@ -56,12 +59,11 @@ defmodule ShortUrl.Link do
   def get_keyword(url) do
     to_string(to_charlist(url) -- 'http://localhost:4000/')
   end
-  
 
   defp validate_input_value(url, custom_keyword, hostname) do
     with :ok <- validate_url(url),
-        :ok <- validate_short_url(url, hostname),
-        :ok <- validate_custom_keyword(url, custom_keyword) do
+         :ok <- validate_short_url(url, hostname),
+         :ok <- validate_custom_keyword(url, custom_keyword) do
       shorten(url, custom_keyword)
     end
   end
@@ -70,6 +72,7 @@ defmodule ShortUrl.Link do
     case :http_uri.parse(url) do
       {:ok, _} ->
         :ok
+
       {:error, _} ->
         {:error, :url_invalid}
     end
@@ -79,7 +82,7 @@ defmodule ShortUrl.Link do
     uri = URI.parse(url)
     input_hostname = uri.scheme <> "://" <> uri.authority
 
-    if (input_hostname ===  hostname) do
+    if input_hostname === hostname do
       {:error, :input_is_short_url}
     else
       :ok
@@ -87,11 +90,11 @@ defmodule ShortUrl.Link do
   end
 
   defp validate_custom_keyword(_, custom_keyword) when byte_size(custom_keyword) == 0 do
-      :ok
+    :ok
   end
 
   defp validate_custom_keyword(_, custom_keyword) when byte_size(custom_keyword) > 6 do
-      {:error, :custom_keyword_length_beyond}
+    {:error, :custom_keyword_length_beyond}
   end
 
   defp validate_custom_keyword(_, custom_keyword) do
@@ -113,13 +116,15 @@ defmodule ShortUrl.Link do
   end
 
   def find_url(url) do
-    link = Link
-    |> where(url: ^url)
-    |> Repo.one
+    link =
+      Link
+      |> where(url: ^url)
+      |> Repo.one()
 
     case link do
       nil ->
         {:err, :url_not_exist}
+
       %Link{} ->
         link
     end
@@ -127,54 +132,58 @@ defmodule ShortUrl.Link do
 
   defp create_url(link = %Link{}, _, custom_keyword) do
     if String.length(custom_keyword) > 0 do
-      {:error,:url_existed_but_custom, link.keyword}
+      {:error, :url_existed_but_custom, link.keyword}
     else
       link.keyword
     end
   end
 
-  defp create_url({:err, :url_not_exist}, url, custom_keyword) when byte_size(custom_keyword) > 0 do
+  defp create_url({:err, :url_not_exist}, url, custom_keyword)
+       when byte_size(custom_keyword) > 0 do
     if keyword_exist?(custom_keyword) do
       {:error, :keyword_existed}
     else
-      Repo.insert(
-        %Link{
-          url: url,
-          type: "custom",
-          keyword: custom_keyword
-        }
-      )
+      Repo.insert(%Link{
+        url: url,
+        type: "custom",
+        keyword: custom_keyword
+      })
+
       custom_keyword
     end
   end
 
-  defp create_url({:err, :url_not_exist}, url, custom_keyword) when byte_size(custom_keyword) == 0 do
+  defp create_url({:err, :url_not_exist}, url, custom_keyword)
+       when byte_size(custom_keyword) == 0 do
     save_url(url)
   end
 
   defp save_url(url) do
-    link = Repo.insert(
-      %Link{
+    link =
+      Repo.insert(%Link{
         url: url,
         type: "system"
-      }
-    )
+      })
 
     case link do
       {:ok, l} ->
         calculate_keyword(l)
-      {:error, error} -> error
+
+      {:error, error} ->
+        error
     end
   end
 
   def keyword_exist?(keyword) do
-    link = Link
-    |> where(keyword: ^keyword)
-    |> Repo.one
+    link =
+      Link
+      |> where(keyword: ^keyword)
+      |> Repo.one()
 
     case link do
       nil ->
         false
+
       %Link{} ->
         true
     end
@@ -201,15 +210,18 @@ defmodule ShortUrl.Link do
     |> changeset(%{
       keyword: keyword
     })
-    |> Repo.update
+    |> Repo.update()
   end
 
   defp get_custom_id() do
-    query = from l in Link,
-          where: l.type == "custom",
-          order_by: [desc: l.id],
-          limit: 1
-    link = query |> Repo.one
+    query =
+      from(l in Link,
+        where: l.type == "custom",
+        order_by: [desc: l.id],
+        limit: 1
+      )
+
+    link = query |> Repo.one()
 
     case link do
       %Link{} -> link
@@ -218,15 +230,17 @@ defmodule ShortUrl.Link do
   end
 
   def expand(keyword) do
-    link = Link
-    |> where(keyword: ^keyword)
-    |> Repo.one
+    link =
+      Link
+      |> where(keyword: ^keyword)
+      |> Repo.one()
 
     case link do
       nil ->
         {:error, :keyword_not_exist}
+
       %Link{} ->
-         {:ok, link.url}
+        {:ok, link.url}
     end
   end
 end

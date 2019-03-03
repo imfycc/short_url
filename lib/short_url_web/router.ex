@@ -2,28 +2,29 @@ defmodule ShortUrlWeb.Router do
   use ShortUrlWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", ShortUrlWeb do
-    pipe_through :browser # Use the default browser stack
+    # Use the default browser stack
+    pipe_through(:browser)
 
-    resources "/", LinkController, only: [:index, :show, :create]
+    resources("/", LinkController, only: [:index, :show, :create])
   end
 
   scope "/api", ShortUrlWeb.API do
-    pipe_through :api
+    pipe_through(:api)
 
-    post "/shorten", LinkController, :shorten
-    get "/lengthen", LinkController, :lengthen
+    post("/shorten", LinkController, :shorten)
+    get("/lengthen", LinkController, :lengthen)
   end
 
   # Other scopes may use custom stacks.

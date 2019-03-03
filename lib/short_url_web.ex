@@ -28,8 +28,9 @@ defmodule ShortUrlWeb do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/short_url_web/templates",
-                        namespace: ShortUrlWeb
+      use Phoenix.View,
+        root: "lib/short_url_web/templates",
+        namespace: ShortUrlWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]

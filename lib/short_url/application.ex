@@ -11,7 +11,7 @@ defmodule ShortUrl.Application do
       # Start the Ecto repository
       supervisor(ShortUrl.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(ShortUrlWeb.Endpoint, []),
+      supervisor(ShortUrlWeb.Endpoint, [])
       # Start your own worker by calling: ShortUrl.Worker.start_link(arg1, arg2, arg3)
       # worker(ShortUrl.Worker, [arg1, arg2, arg3]),
     ]
