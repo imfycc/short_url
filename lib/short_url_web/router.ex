@@ -23,6 +23,7 @@ defmodule ShortUrlWeb.Router do
     pipe_through :api
 
     post "/shorten", LinkController, :shorten
+    get "/lengthen", LinkController, :lengthen
   end
 
   # Other scopes may use custom stacks.

@@ -30,6 +30,32 @@ defmodule ShortUrlWeb.API.LinkController do
     fail(conn, message)
   end
 
+  def lengthen(conn, %{"url" => url} = param) do
+    url = String.trim(url)
+
+    case Link.lengthen(url) do
+      {:ok, lurl} ->
+        result = lurl
+        json conn, %{
+          success: true,
+          data: %{url: url, longUrl: result}
+      }
+      {:error, :url_invalid} ->
+        message = "请输入正确的网址"
+        fail(conn, message)
+      {:error, :keyword_not_exist} ->
+        message = "不存在此短连接"
+        fail(conn, message)
+      {:error, _} ->
+        message = "未知异常"
+        fail(conn, message)
+    end
+  end
+
+  def lengthen(conn, _) do
+    message = "参数错误"
+    fail(conn, message)
+  end
 
   defp fail(conn, message) do
     json conn, %{

@@ -39,6 +39,25 @@ defmodule ShortUrl.Link do
     validate_input_value(url, custom_keyword, hostname)
   end
 
+  def lengthen(url) do
+    keyword = get_keyword(url)
+    link = Link
+    |> where(keyword: ^keyword)
+    |> Repo.one
+
+    case link do
+      nil ->
+        {:error, :keyword_not_exist}
+      %Link{} ->
+        {:ok, link.url}
+    end
+  end
+
+  def get_keyword(url) do
+    to_string(to_charlist(url) -- 'http://localhost:4000/')
+  end
+  
+
   defp validate_input_value(url, custom_keyword, hostname) do
     with :ok <- validate_url(url),
         :ok <- validate_short_url(url, hostname),
