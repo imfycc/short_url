@@ -60,11 +60,19 @@ defmodule ShortUrl.Link do
     to_string(to_charlist(url) -- 'http://localhost:4000/')
   end
 
-  defp validate_input_value(url, custom_keyword, hostname) do
+  def validate_input_value(url, custom_keyword, hostname) do
     with :ok <- validate_url(url),
          :ok <- validate_short_url(url, hostname),
          :ok <- validate_custom_keyword(url, custom_keyword) do
       shorten(url, custom_keyword)
+    end
+  end
+
+  def handle_validate_input_value(url, custom_keyword, hostname) do
+    with :ok <- validate_url(url),
+         :ok <- validate_short_url(url, hostname),
+         :ok <- validate_custom_keyword(url, custom_keyword) do
+      :ok
     end
   end
 

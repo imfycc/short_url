@@ -50,6 +50,9 @@ config :short_url, ShortUrlWeb.Endpoint,
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
+config :short_url,
+  short_url_domain: "http://localhost:4000/"
+
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20

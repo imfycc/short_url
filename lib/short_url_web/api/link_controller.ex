@@ -2,48 +2,20 @@ defmodule ShortUrlWeb.API.LinkController do
   use ShortUrlWeb, :controller
   alias ShortUrl.Link
 
-  def shorten(conn, %{"url" => url} = param) do
-    url = String.trim(url)
-    hostname = ShortUrlWeb.Router.Helpers.url(conn)
+  def shorten(conn, %{"url" => url} = params) do
+    # * 获取一个 url url = http://a.com
+    # * 一个数组，如果是数组循环调用 shorten 方法 url = ["http://a.com", "http://b.com"]
 
-    case Link.shorten(url, "", hostname) do
-      re when is_binary(re) ->
-        result = hostname <> "/" <> re
-
-        json(conn, %{
-          success: true,
-          data: %{url: url, shortUrl: result}
-        })
-
-      {:error, :input_is_short_url} ->
-        message = "不能输入转化后的短链接！"
-        fail(conn, message)
-
-      {:error, :url_invalid} ->
-        message = "请输入正确的网址"
-        fail(conn, message)
-
-      {:error, _} ->
-        message = "未知异常"
-        fail(conn, message)
-    end
+    result = do_shorten(url)
+    do_handle_result(conn, result)
   end
 
-  def shorten(conn, _) do
-    message = "参数错误"
-    fail(conn, message)
-  end
-
-  def lengthen(conn, %{"url" => url} = param) do
-    url = String.trim(url)
-
+  def original(conn, %{"url" => url} = params) do
     case Link.lengthen(url) do
-      {:ok, lurl} ->
-        result = lurl
-
+      {:ok, original_url} ->
         json(conn, %{
           success: true,
-          data: %{url: url, longUrl: result}
+          data: %{url: url, originalUrl: original_url}
         })
 
       {:error, :url_invalid} ->
@@ -60,9 +32,58 @@ defmodule ShortUrlWeb.API.LinkController do
     end
   end
 
-  def lengthen(conn, _) do
-    message = "参数错误"
-    fail(conn, message)
+  defp do_shorten(result) when is_list(result) do
+    short_url_domain = Application.get_env(:short_url, :short_url_domain)
+
+    case result
+         |> Enum.all?(fn k -> Link.handle_validate_input_value(k, "", short_url_domain) == :ok end) do
+      true -> result |> Enum.map(fn k -> do_shorten(k) end)
+      false -> {:error, :list_invalid}
+    end
+  end
+
+  defp do_shorten(base_url) when is_binary(base_url) do
+    short_url_domain = Application.get_env(:short_url, :short_url_domain)
+
+    short_url_domain =
+      if String.ends_with?(short_url_domain, "/") do
+        short_url_domain
+      else
+        short_url_domain <> "/"
+      end
+
+    case Link.shorten(base_url, "", short_url_domain) do
+      re when is_binary(re) ->
+        result = short_url_domain <> re
+
+        %{
+          url: base_url,
+          shortUrl: result
+        }
+
+      {:error, :input_is_short_url} ->
+        {:error, :input_is_short_url}
+
+      {:error, :url_invalid} ->
+        {:error, :url_invalid}
+
+      {:error, _} ->
+        {:error, :invalid}
+    end
+  end
+
+  defp do_shorten(_), do: {:error, :invalid}
+
+  defp do_handle_result(conn, {:error, :url_invalid}), do: fail(conn, "请输入正确的网址")
+  defp do_handle_result(conn, {:error, :input_is_short_url}), do: fail(conn, "不能输入转化后的短链接！")
+  defp do_handle_result(conn, {:error, :list_invalid}), do: fail(conn, "数据内有 URL 不符合规范")
+  defp do_handle_result(conn, {:error, :invalid}), do: fail(conn, "未知异常")
+
+  defp do_handle_result(conn, res) do
+    json(conn, %{
+      success: true,
+      data: res
+    })
   end
 
   defp fail(conn, message) do
