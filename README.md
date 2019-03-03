@@ -27,6 +27,11 @@ http://elixir-lang.org/install.html
 ```
 iex -S mix
 ```
+## 格式化代码
+
+```
+mix format
+```
 ## 部署
 
 可以参考这篇文章 [使用 edeliver 部署 Elixir 应用程序](https://hufangyun.com/2017/elixir-edeliver/)
@@ -37,9 +42,4 @@ iex -S mix
 
 2、接口化，前端调用接口实现
 
-3、自动续期
-
-4、压测
-
-5、访问速度优化
 
