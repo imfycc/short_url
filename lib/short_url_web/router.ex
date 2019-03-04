@@ -24,7 +24,7 @@ defmodule ShortUrlWeb.Router do
     pipe_through(:api)
 
     post("/shorten", LinkController, :shorten)
-    get("/lengthen", LinkController, :lengthen)
+    post("/original", LinkController, :original)
   end
 
   # Other scopes may use custom stacks.
