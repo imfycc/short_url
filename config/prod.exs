@@ -15,7 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :short_url, ShortUrlWeb.Endpoint,
   http: [port: 4500],
-  url: [scheme: "https", host: "hufangyun.com", port: 443],
+  url: [scheme: "https", host: "url.hufangyun.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 
