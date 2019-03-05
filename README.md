@@ -9,6 +9,7 @@
 ## 准备工作
 
 ###  安装elixir
+
 http://elixir-lang.org/install.html
 
 ### 安装postgreSQL
@@ -22,11 +23,13 @@ http://elixir-lang.org/install.html
   * 访问应用 [`localhost:4000`](http://localhost:4000)
 
 ## 调试
+
 进入控制台:
 
-```
+```shell
 iex -S mix
 ```
+
 ## 格式化代码
 
 ```
@@ -36,10 +39,8 @@ mix format
 
 可以参考这篇文章 [使用 edeliver 部署 Elixir 应用程序](https://hufangyun.com/2017/elixir-edeliver/)
 
-## TODO
+## 配置
 
-1、静态文件上传到又拍云
+1、部署地址
 
-2、接口化，前端调用接口实现
-
-
+2、短链域名

@@ -2,7 +2,7 @@ defmodule ShortUrlWeb.API.LinkController do
   use ShortUrlWeb, :controller
   alias ShortUrl.Link
 
-  def shorten(conn, %{"url" => url} = params) do
+  def shorten(conn, %{"url" => url} = _params) do
     # * 获取一个 url url = http://a.com
     # * 一个数组，如果是数组循环调用 shorten 方法 url = ["http://a.com", "http://b.com"]
 
@@ -10,7 +10,7 @@ defmodule ShortUrlWeb.API.LinkController do
     do_handle_result(conn, result)
   end
 
-  def original(conn, %{"url" => url} = params) do
+  def original(conn, %{"url" => url} = _params) do
     case Link.lengthen(url) do
       {:ok, original_url} ->
         json(conn, %{
@@ -93,3 +93,4 @@ defmodule ShortUrlWeb.API.LinkController do
     })
   end
 end
+
