@@ -105,4 +105,13 @@ defmodule ShortUrlWeb.LinkControllerTest do
     end
   end
 
+describe "POST api/shorten" do
+    # 后续覆盖 error 测试。
+    test "POST api/shorten multi url", %{conn: conn} do
+      conn = post conn, "/api/shorten", url: ["http://a.com", "http://b.com"]
+      assert get_in(json_response(conn, 200), ["success"]) == true
+      assert get_in(json_response(conn, 200), ["data"]) |> is_list == true
+    end
+  end
+
 end

@@ -15,7 +15,7 @@ defmodule ShortUrlWeb.LinkController do
 
     case Link.shorten(url, custom_keyword, hostname) do
       re when is_binary(re) ->
-        result = hostname <> "/" <> re
+        result = hostname <> re
         render(conn, "index.html", url: url, short_url: result, custom_keyword: "")
 
       {:error, :custom_keyword_length_beyond} ->
@@ -35,7 +35,7 @@ defmodule ShortUrlWeb.LinkController do
         render_flash(conn, message, url, "")
 
       {:error, :url_existed_but_custom, keyword} ->
-        result = hostname <> "/" <> keyword
+        result = hostname <> keyword
         message = "该链接已经存在，不能自定义短码！"
         render_flash(conn, message, url, result)
 

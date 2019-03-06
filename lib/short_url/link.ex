@@ -57,8 +57,13 @@ defmodule ShortUrl.Link do
   end
 
   def get_keyword(url) do
-    to_string(to_charlist(url) -- 'http://localhost:4000/')
+    url
+    |> URI.parse()
+    |> Map.get(:path)
+    |> strip()
   end
+
+  defp strip("/" <> keyword), do: keyword
 
   def validate_input_value(url, custom_keyword, hostname) do
     with :ok <- validate_url(url),
@@ -87,13 +92,9 @@ defmodule ShortUrl.Link do
   end
 
   defp validate_short_url(url, hostname) do
-    uri = URI.parse(url)
-    input_hostname = uri.scheme <> "://" <> uri.authority
-
-    if input_hostname === hostname do
-      {:error, :input_is_short_url}
-    else
-      :ok
+    case String.contains?(url, hostname) do
+      true -> {:error, :input_is_short_url}
+      _ -> :ok
     end
   end
 
