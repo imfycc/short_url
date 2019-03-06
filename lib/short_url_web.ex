@@ -21,8 +21,9 @@ defmodule ShortUrlWeb do
     quote do
       use Phoenix.Controller, namespace: ShortUrlWeb
       import Plug.Conn
-      import ShortUrlWeb.Router.Helpers
       import ShortUrlWeb.Gettext
+
+      alias ShortUrlWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -38,9 +39,10 @@ defmodule ShortUrlWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import ShortUrlWeb.Router.Helpers
       import ShortUrlWeb.ErrorHelpers
       import ShortUrlWeb.Gettext
+
+      alias ShortUrlWeb.Router.Helpers, as: Routes
     end
   end
 

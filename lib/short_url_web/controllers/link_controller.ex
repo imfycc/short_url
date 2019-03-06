@@ -1,5 +1,6 @@
 defmodule ShortUrlWeb.LinkController do
   use ShortUrlWeb, :controller
+  alias ShortUrlWeb.Router.Helpers, as: Routes
   alias ShortUrl.Link
 
   def index(conn, _) do
@@ -11,7 +12,7 @@ defmodule ShortUrlWeb.LinkController do
     url = String.trim(url)
     custom_keyword = String.trim(custom_keyword)
 
-    hostname = ShortUrlWeb.Router.Helpers.url(conn)
+    hostname = Routes.url(conn) <> "/"
 
     case Link.shorten(url, custom_keyword, hostname) do
       re when is_binary(re) ->

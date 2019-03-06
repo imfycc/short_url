@@ -18,7 +18,7 @@
       <div class="short-url">
         <span class="label label-success url-title" >短链接</span><span id="short-url"><%= @short_url %></span>
         <a class="btn clipboard" data-clipboard-target="#short-url">
-          <img src="<%= static_path(@conn, "/images/clippy.svg") %>" alt="Copy to clipboard">
+          <img src="<%= Routes.static_path(@conn, "/images/clippy.svg") %>" alt="Copy to clipboard">
         </a>
       </div>
       <% end %>

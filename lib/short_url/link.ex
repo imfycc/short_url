@@ -4,10 +4,6 @@ defmodule ShortUrl.Link do
   import Ecto.Query
   alias ShortUrl.{Link, Repo}
 
-  @timestamps_opts [
-    autogenerate: {EctoTimestamps.Local, :autogenerate, [:usec]}
-  ]
-
   schema "links" do
     field(:url, :string)
     field(:keyword, :string)

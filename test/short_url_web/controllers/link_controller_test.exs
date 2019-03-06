@@ -9,7 +9,7 @@ defmodule ShortUrlWeb.LinkControllerTest do
   end
 
   test "GET / index", %{conn: conn} do
-    conn = get conn, "/"
+    conn = get(conn, "/")
     assert html_response(conn, 200) =~ "输入网址"
   end
 
@@ -38,7 +38,7 @@ defmodule ShortUrlWeb.LinkControllerTest do
     end
 
     test "POST / create | url is short url", %{conn: conn} do
-      hostname = ShortUrlWeb.Endpoint.url
+      hostname = ShortUrlWeb.Endpoint.url()
       conn = post conn, "/", url: hostname <> "/ab1", custom_keyword: ""
       assert html_response(conn, 200) =~ "不能输入转化后的短链接"
     end
@@ -79,9 +79,12 @@ defmodule ShortUrlWeb.LinkControllerTest do
     end
 
     test "POST / create | current keyword is occupied before custom_keyword", %{conn: conn} do
-      query = from l in Link,
-        select: max(l.id)
-      max_id = query |> Repo.one
+      query =
+        from(l in Link,
+          select: max(l.id)
+        )
+
+      max_id = query |> Repo.one()
       keyword2 = Base62.encode(max_id + 2)
       keyword = Base62.encode(max_id + 1)
 
@@ -91,21 +94,21 @@ defmodule ShortUrlWeb.LinkControllerTest do
       conn = post conn, "/", url: "https://p.hufangyun.com", custom_keyword: ""
       assert html_response(conn, 200) =~ keyword
     end
-
   end
 
   describe "show/2" do
     test "GET / show | short_url is not exist", %{conn: conn} do
-      conn = get conn, "/ABC"
+      conn = get(conn, "/ABC")
       assert html_response(conn, 200) =~ "404"
     end
+
     test "GET / show | short_url", %{conn: conn} do
-      conn = get conn, "/zRx"
+      conn = get(conn, "/zRx")
       assert html_response(conn, 302) =~ "redirected"
     end
   end
 
-describe "POST api/shorten" do
+  describe "POST api/shorten" do
     # 后续覆盖 error 测试。
     test "POST api/shorten multi url", %{conn: conn} do
       conn = post conn, "/api/shorten", url: ["http://a.com", "http://b.com"]
@@ -113,5 +116,4 @@ describe "POST api/shorten" do
       assert get_in(json_response(conn, 200), ["data"]) |> is_list == true
     end
   end
-
 end

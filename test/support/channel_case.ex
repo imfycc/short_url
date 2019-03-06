@@ -25,13 +25,13 @@ defmodule ShortUrlWeb.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(ShortUrl.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(ShortUrl.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end

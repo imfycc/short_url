@@ -9,6 +9,9 @@ config :short_url, ShortUrlWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :short_url,
+  short_url_domain: "http://localhost:4000/"
+
 # Configure your database
 config :short_url, ShortUrl.Repo,
   adapter: Ecto.Adapters.Postgres,

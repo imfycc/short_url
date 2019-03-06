@@ -19,20 +19,20 @@ defmodule ShortUrlWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import ShortUrlWeb.Router.Helpers
+      alias ShortUrlWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
       @endpoint ShortUrlWeb.Endpoint
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(ShortUrl.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(ShortUrl.Repo, {:shared, self()})
     end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

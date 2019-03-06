@@ -1,8 +1,7 @@
 defmodule ShortUrlWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :short_url
 
-  socket("/socket", ShortUrlWeb.UserSocket)
-
+  socket("/socket", ShortUrlWeb.UserSocket, websocket: true)
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
@@ -28,7 +27,7 @@ defmodule ShortUrlWeb.Endpoint do
   plug(Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
   )
 
   plug(Plug.MethodOverride)

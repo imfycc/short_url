@@ -1,3 +1,4 @@
 [
-  inputs: ["{config,lib,priv,text}/**/*.{exs,ex}"]
+  import_deps: [:phoenix],
+  inputs: ["*.{ex,exs}", "{config,lib,priv,test}/**/*.{ex,exs}"]
 ]

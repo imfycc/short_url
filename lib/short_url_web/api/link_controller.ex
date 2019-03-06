@@ -33,7 +33,9 @@ defmodule ShortUrlWeb.API.LinkController do
   end
 
   defp do_shorten(result) when is_list(result) do
-    short_url_domain = Application.get_env(:short_url, :short_url_domain)
+    short_url_domain =  Application.get_env(:short_url, :short_url_domain)
+
+    IO.inspect(short_url_domain)
 
     case result
          |> Enum.all?(fn k -> Link.handle_validate_input_value(k, "", short_url_domain) == :ok end) do
@@ -93,4 +95,3 @@ defmodule ShortUrlWeb.API.LinkController do
     })
   end
 end
-
