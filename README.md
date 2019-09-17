@@ -10,6 +10,8 @@
 
 [预览地址](https://fearless-trustworthy-aidi.gigalixirapp.com/)
 
+由 [Gigalixir](https://gigalixir.com/) 提供免费部署服务，该地址只用于体验，:warning: 不提供数据维护存储。
+
 ## 预览图
 
 ![image](https://user-images.githubusercontent.com/9588284/65018350-77ff9280-d95b-11e9-80fd-8f11010f3e2b.png)
