@@ -156,3 +156,18 @@ body, form, ul, table {
   }
 }
 
+.badge {
+  background-color: unset;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.badge a {
+  margin-left: 3px;
+}
+
+.badge a:hover {
+  text-decoration: none;
+  margin-left: 10px;
+}
