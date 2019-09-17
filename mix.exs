@@ -5,7 +5,7 @@ defmodule ShortUrl.Mixfile do
     [
       app: :short_url,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -43,8 +43,7 @@ defmodule ShortUrl.Mixfile do
       {:httpoison, "~> 0.13"},
       {:custom_base, "~> 0.2.1"},
       {:gettext, "~> 0.11"},
-      {:edeliver, ">= 1.6.0"},
-      {:distillery, "~> 2.0", warn_missing: false},
+      {:distillery, "~> 2.1"},
       {:jason, "~> 1.0"},
       {:exrm, ">= 0.16.0", warn_missing: false},
       {:plug_cowboy, "~> 2.0"},
