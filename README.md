@@ -54,3 +54,9 @@ mix format
 - [ ] 更新 README.md 关于接口的使用
 
 - [ ] 记录打包、部署、更新测试中的地址
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2018-present, 小猿大圣（Youthink）
