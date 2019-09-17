@@ -6,6 +6,10 @@
 
 > 短链接生成应用
 
+## 体验
+
+[预览地址](https://fearless-trustworthy-aidi.gigalixirapp.com/)
+
 ## 预览图
 
 ![image](https://user-images.githubusercontent.com/9588284/65018350-77ff9280-d95b-11e9-80fd-8f11010f3e2b.png)
