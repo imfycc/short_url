@@ -1,5 +1,9 @@
 # ShortUrl
 
+![MIT](https://img.shields.io/github/license/Youthink/short_url?logo=lightgreen)
+![elixir](https://img.shields.io/badge/language-elixir-%234e2a8e)
+[![](https://img.shields.io/badge/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E5%8E%9F%E7%90%86-blue)](https://hufangyun.com/2017/short-url/)
+
 > 短链接生成应用
 
 ## 预览图
