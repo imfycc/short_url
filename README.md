@@ -30,11 +30,11 @@ http://elixir-lang.org/install.html
 
 ## 首次运行
 
-  * 安装依赖  `mix deps.get`
-  * 创建数据库及数据表  `mix ecto.create && mix ecto.migrate`
-  * 安装前端依赖 `cd assets && yarn install`
-  * 启动服务 `mix phx.server`
-  * 访问应用 [`localhost:4000`](http://localhost:4000)
+* 安装依赖  `mix deps.get`
+* 创建数据库及数据表  `mix ecto.create && mix ecto.migrate`
+* 安装前端依赖 `cd assets && yarn install`
+* 启动服务 `mix phx.server`
+* 访问应用 [`localhost:4000`](http://localhost:4000)
 
 ## 调试
 
@@ -46,12 +46,50 @@ iex -S mix
 
 ## 格式化代码
 
-```
+```shell
 mix format
 ```
 ## 部署
 
 可以参考这篇文章 [使用 edeliver 部署 Elixir 应用程序](https://hufangyun.com/2017/elixir-edeliver/)
+
+## API
+
+**短链接生成 API**
+
+```bash
+## api/shorten
+curl -X "POST" "http://localhost:4000/api/shorten" \
+      -H 'Content-Type: application/json; charset=utf-8' \
+      -d $'{
+  "url": "https://www.github.com"
+}'
+```
+
+**批量短链接生成 API**
+
+```bash
+## Mutil api/shorten
+curl -X "POST" "http://localhost:4000/api/shorten/" \
+      -H 'Content-Type: application/json; charset=utf-8' \
+      -d $'{
+  "url": [
+    "https://gitlab.com",
+    "https://github.com"
+  ]
+}'
+```
+
+**短链接复原 API**
+
+```bash
+## api/original
+curl -X "POST" "http://localhost:4000/api/original/" \
+      -H 'Content-Type: application/json; charset=utf-8' \
+      -d $'{
+  "url": "http://localhost:4000/zRa"
+}'
+```
 
 ## 配置
 
@@ -60,8 +98,6 @@ mix format
 2、短链域名
 
 ## TODO
-
-- [ ] 更新 README.md 关于接口的使用
 
 - [ ] 记录打包、部署、更新测试中的地址
 
