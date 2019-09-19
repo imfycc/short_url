@@ -3,6 +3,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "brunch build --production",
+    "build": "npm run deploy",
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
